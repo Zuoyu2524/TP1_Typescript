@@ -1,6 +1,6 @@
 {
     "db": {
-      "connectionString": "postgres://postgres:123456@localhost:5432/postgres"
+      "connectionString": "postgres://postgres:186971ZHzy!@localhost:5432/postgres"
     },
     "outDir": "./src",
     "schemas": {

@@ -8,7 +8,7 @@ async function userRouter(fastify: FastifyInstance) {
 	method: 'GET',
 	url: '/',
 	handler: controllers.listUsers,
-  preHandler: checkRole(['Admin', 'Player', 'Reporter']),
+  preHandler: checkRole(['Admin', 'Reporter']),
   })
 
   //Création d’un utilisateur avec un email + mot de passe avec un payload JSON
@@ -24,7 +24,7 @@ async function userRouter(fastify: FastifyInstance) {
     method: 'PUT',
     url: '/users/:id',
     handler: controllers.updateUser,
-    preHandler: checkRolePlus(['Admin', 'Player']),
+    preHandler: checkRolePlus(['Admin', 'Reporter']),
   })
 
   //Effacer un utilisateur en mode soft-delete
@@ -33,7 +33,7 @@ async function userRouter(fastify: FastifyInstance) {
        method: 'PUT',
        url: '/deleteuser',
        handler: controllers.deleteUser,
-       preHandler: checkRole(['Admin']),
+       preHandler: checkRolePlus(['Admin']),
     })
 
   //voir les utilisateurs effacés
@@ -58,6 +58,13 @@ async function userRouter(fastify: FastifyInstance) {
     url: '/users',
     handler: controllers.getUserbyName,
     preHandler: checkRole(['Admin', 'Reporter']),
+  })
+
+  fastify.route({
+    method: 'GET',
+    url: '/users/name/:id',
+    handler: controllers.getUserName,
+    preHandler: checkRole(['Admin', 'Reporter', 'Player']),
   })
 
 }

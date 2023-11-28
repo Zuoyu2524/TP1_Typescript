@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  users-api:
+    build: 
+      context: ./users-api
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./users-api:/app
+
+  db:
+    image: postgres:12-alpine 
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 186971ZHzy!
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"

@@ -191,6 +191,49 @@ export const getUserbyName = async (
   }
 };
 
+export const getUserName = async (
+  request: FastifyRequest<{ Params: { id: string } }>,
+  reply: FastifyReply
+) => {
+  try {
+    const userId: s.users.Selectable["user_id"] = parseInt(request.params.id, 10);
+
+    const query = `
+      SELECT name FROM ${"users"} WHERE user_id = ${userId}`;
+
+    const { rows: users } = await pool.query(query);
+    const user = users[0];
+
+    if (!user) {
+      return reply.status(404).send({ error: 'User not found.' });
+    }
+
+    reply.send({ data: user });
+  } catch (error) {
+    console.error('Error getting user:', error);
+    reply.status(500).send({ error: 'Internal Server Error' });
+  }
+};
+
+export async function getUserById(userId) {
+  try {
+    const query = `
+      SELECT name FROM ${"users"} WHERE user_id = ${userId}`;
+
+    const { rows: users } = await pool.query(query);
+    const user = users[0];
+
+    if (!user) {
+      return { name: 'User not found' };
+    }
+    return { name: user.name };
+  } catch (error) {
+    console.error('Error getting user:', error);
+    return { error: 'Error getting user' };
+  }
+}
+
+
 export * from './user.controller';
 
 /*
